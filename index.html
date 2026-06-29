@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashCard Pro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>FlashCard Pro</h1>
+    <nav>
+      <a href="index.html" class="active">Study</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <div class="score-bar">
+    <div class="score-item score-correct">
+      Correct: <span class="count" id="correct-count">0</span>
+    </div>
+    <div class="score-item score-incorrect">
+      Incorrect: <span class="count" id="incorrect-count">0</span>
+    </div>
+    <div class="score-item score-remaining">
+      Remaining: <span class="count" id="remaining-count">0</span>
+    </div>
+    <div class="score-item score-total">
+      Total: <span class="count" id="total-count">0</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <select id="category-select">
+      <option value="">-- Select Category --</option>
+    </select>
+    <button id="mode-practice" class="active">Practice Mode</button>
+    <button id="mode-quiz">Quiz Mode</button>
+    <button id="restart-btn" disabled>Restart</button>
+  </div>
+
+  <div class="card-area" id="card-area">
+    <div class="empty-state" id="empty-state">
+      <h2>Select a category to start studying</h2>
+      <p>Choose a category from the dropdown above, then pick your mode.</p>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

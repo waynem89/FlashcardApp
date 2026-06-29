@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashCard Pro - Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>FlashCard Pro</h1>
+    <nav>
+      <a href="index.html">Study</a>
+      <a href="admin.html" class="active">Admin</a>
+    </nav>
+  </header>
+
+  <div class="admin-layout">
+    <div class="sidebar">
+      <h3>Categories</h3>
+      <div id="category-list"></div>
+      <div class="sidebar-actions">
+        <button id="add-category-btn">+ New Category</button>
+        <button id="import-csv-btn">Import CSV</button>
+        <button id="export-btn">Export All</button>
+      </div>
+    </div>
+    <div class="admin-main" id="admin-main">
+      <div class="empty-state">
+        <h2>Select a category to manage cards</h2>
+        <p>Or create a new category to get started.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Card Modal -->
+  <div class="modal-overlay" id="card-modal" style="display:none">
+    <div class="modal">
+      <h3 id="card-modal-title">Add Card</h3>
+      <label for="card-question">Question</label>
+      <textarea id="card-question" placeholder="Enter the question..."></textarea>
+      <label for="card-answer">Answer</label>
+      <input type="text" id="card-answer" placeholder="Enter the answer...">
+      <div class="modal-buttons">
+        <button onclick="closeCardModal()">Cancel</button>
+        <button class="primary-btn" onclick="saveCard()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Category Modal -->
+  <div class="modal-overlay" id="category-modal" style="display:none">
+    <div class="modal">
+      <h3>New Category</h3>
+      <label for="category-name">Category Name</label>
+      <input type="text" id="category-name" placeholder="e.g. Biology, History...">
+      <div class="modal-buttons">
+        <button onclick="closeCategoryModal()">Cancel</button>
+        <button class="primary-btn" onclick="saveCategory()">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import CSV Modal -->
+  <div class="modal-overlay" id="import-modal" style="display:none">
+    <div class="modal">
+      <h3>Import CSV</h3>
+      <label for="import-category">Import into category</label>
+      <select id="import-category"></select>
+      <p class="import-help">
+        Paste your CSV data below. Each line should have a question and answer separated by a comma.<br>
+        Example:<br>
+        What is 2+2?,4<br>
+        Capital of Japan?,Tokyo
+      </p>
+      <label for="csv-data">CSV Data</label>
+      <textarea id="csv-data" placeholder="question,answer&#10;question,answer"></textarea>
+      <div class="modal-buttons">
+        <button onclick="closeImportModal()">Cancel</button>
+        <button class="primary-btn" onclick="importCSV()">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

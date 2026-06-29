@@ -1,0 +1,15 @@
+{
+  "categories": [
+    {
+      "id": "sample",
+      "name": "Sample Cards",
+      "cards": [
+        { "id": "s1", "question": "What is the capital of France?", "answer": "Paris" },
+        { "id": "s2", "question": "What year did World War II end?", "answer": "1945" },
+        { "id": "s3", "question": "What is the chemical symbol for water?", "answer": "H2O" },
+        { "id": "s4", "question": "Who wrote Romeo and Juliet?", "answer": "William Shakespeare" },
+        { "id": "s5", "question": "What is the largest planet in our solar system?", "answer": "Jupiter" }
+      ]
+    }
+  ]
+}
