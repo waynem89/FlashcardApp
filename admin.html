@@ -7,7 +7,21 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="header">
+  <!-- Password Gate -->
+  <div class="modal-overlay" id="password-gate" style="display:flex">
+    <div class="modal">
+      <h3>Admin Access</h3>
+      <label for="admin-password">Enter password to continue</label>
+      <input type="password" id="admin-password" placeholder="Password...">
+      <p id="password-error" style="color:#f87171; font-size:0.85rem; margin-top:-0.5rem; display:none;">Incorrect password</p>
+      <div class="modal-buttons">
+        <button onclick="window.location.href='index.html'">Back to Study</button>
+        <button class="primary-btn" onclick="checkPassword()">Enter</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="header" style="display:none" id="admin-header">
     <h1>FlashCard Pro</h1>
     <nav>
       <a href="index.html">Study</a>
@@ -15,7 +29,7 @@
     </nav>
   </header>
 
-  <div class="admin-layout">
+  <div class="admin-layout" style="display:none" id="admin-content">
     <div class="sidebar">
       <h3>Categories</h3>
       <div id="category-list"></div>
@@ -82,6 +96,44 @@
     </div>
   </div>
 
+  <script>
+    // Default password: admin123
+    // To change: generate a new SHA-256 hash at any online tool and replace below
+    const ADMIN_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+
+    async function sha256(text) {
+      const data = new TextEncoder().encode(text);
+      const hash = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkPassword() {
+      const input = document.getElementById('admin-password');
+      const hash = await sha256(input.value);
+      if (hash === ADMIN_HASH) {
+        sessionStorage.setItem('flashcard-admin-auth', 'true');
+        unlockAdmin();
+      } else {
+        document.getElementById('password-error').style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    function unlockAdmin() {
+      document.getElementById('password-gate').style.display = 'none';
+      document.getElementById('admin-header').style.display = 'flex';
+      document.getElementById('admin-content').style.display = 'flex';
+    }
+
+    document.getElementById('admin-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    if (sessionStorage.getItem('flashcard-admin-auth') === 'true') {
+      unlockAdmin();
+    }
+  </script>
   <script src="js/admin.js"></script>
 </body>
 </html>
