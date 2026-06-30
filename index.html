@@ -7,14 +7,27 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="header">
+  <!-- Password Gate -->
+  <div class="modal-overlay" id="password-gate" style="display:flex">
+    <div class="modal">
+      <h3>FlashCard Pro</h3>
+      <label for="study-password">Enter password to continue</label>
+      <input type="password" id="study-password" placeholder="Password...">
+      <p id="password-error" style="color:#f87171; font-size:0.85rem; margin-top:-0.5rem; display:none;">Incorrect password</p>
+      <div class="modal-buttons">
+        <button class="primary-btn" onclick="checkPassword()">Enter</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="header" style="display:none" id="app-header">
     <h1>FlashCard Pro</h1>
     <nav>
       <a href="index.html" class="active">Study</a>
     </nav>
   </header>
 
-  <div class="score-bar">
+  <div class="score-bar" style="display:none" id="app-score-bar">
     <div class="score-item score-correct">
       Correct: <span class="count" id="correct-count">0</span>
     </div>
@@ -29,7 +42,7 @@
     </div>
   </div>
 
-  <div class="controls">
+  <div class="controls" style="display:none" id="app-controls">
     <select id="category-select">
       <option value="">-- Select Category --</option>
     </select>
@@ -38,13 +51,51 @@
     <button id="restart-btn" disabled>Restart</button>
   </div>
 
-  <div class="card-area" id="card-area">
+  <div class="card-area" id="card-area" style="display:none">
     <div class="empty-state" id="empty-state">
       <h2>Select a category to start studying</h2>
       <p>Choose a category from the dropdown above, then pick your mode.</p>
     </div>
   </div>
 
+  <script>
+    const STUDY_HASH = '417f746683fdd74dbdaa0b87f6ea1cfa29b7966bb385bfcd96f99cae9ff01ce7';
+
+    async function sha256(text) {
+      const data = new TextEncoder().encode(text);
+      const hash = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkPassword() {
+      const input = document.getElementById('study-password');
+      const hash = await sha256(input.value);
+      if (hash === STUDY_HASH) {
+        sessionStorage.setItem('flashcard-study-auth', 'true');
+        unlockApp();
+      } else {
+        document.getElementById('password-error').style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    function unlockApp() {
+      document.getElementById('password-gate').style.display = 'none';
+      document.getElementById('app-header').style.display = 'flex';
+      document.getElementById('app-score-bar').style.display = 'flex';
+      document.getElementById('app-controls').style.display = 'flex';
+      document.getElementById('card-area').style.display = 'flex';
+    }
+
+    document.getElementById('study-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    if (sessionStorage.getItem('flashcard-study-auth') === 'true') {
+      unlockApp();
+    }
+  </script>
   <script src="js/app.js"></script>
 </body>
 </html>
